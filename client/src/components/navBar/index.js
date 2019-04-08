@@ -8,14 +8,14 @@ function Nav() {
         <li className="navbar-brand">
         Google Book Search
         </li>
-        <li className="homePage">
+        <li className="homePage ml-5"><a href='/'>
         {/* this will be our home page component */}
         Search Books
-        </li>
-        <li className="savedPage">
+        </a></li>
+        <li className="savedPage ml-5"><a href='/'>
         {/* this will be our saved page component */}
        Saved Books 
-        </li>
+       </a></li>
     </ul>
     </nav>
   );

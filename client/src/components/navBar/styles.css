@@ -1,6 +1,6 @@
 .navbar-nav li {
     display: inline-block;
-    width: 33.3%;
+    /* width: 33.3%; */
     text-align: center;
     color: white;
     margin: auto;
@@ -10,5 +10,5 @@
 .navbar {
     background-color: #6CADDC;
     width: 100%;
-    display: block;
+    display: inline-flex;
 }
