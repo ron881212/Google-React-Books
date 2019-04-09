@@ -1,12 +1,18 @@
 import React, { Component } from "react";
-import API from "../../utils/API";
-import Searched from '../searched'
+import API from "../utils/API";
+import Searched from '../components/searched'
 
 class Search extends Component {
   state = {
     search: "",
     results: [],
-    error: ""
+    books: [],
+    error: "",
+    title: "",
+    author: "",
+    description: "",
+    picture: "",
+    buy: ""
   };
 
   handleInputChange = event => {
@@ -28,6 +34,25 @@ class Search extends Component {
       })
       .catch(err => this.setState({ error: err.message }));
   };
+  saveBookSubmit = event => {
+    event.preventDefault();
+      API.saveBook({
+        title: "test",
+        author: this.state.author,
+        description: this.state.description,
+        picture: this.state.picture,
+        buy: this.state.buy
+      })
+        .then(res => this.loadBooks())
+        .catch(err => console.log(err));
+  };
+  loadBooks = () => {
+    API.getBooks()
+      .then(res =>
+        this.setState({ books: res.data, title: "", author: "", description: "", picture: "", buy: ""})
+      )
+      .catch(err => console.log(err));
+  };
   render() {  
     const searchResults = this.state.results.map(find => 
         <Searched 
@@ -36,10 +61,11 @@ class Search extends Component {
         author={find.volumeInfo.authors[0]}
         description={find.selfLink}
         link={find.volumeInfo.description}
+        post={this.saveBookSubmit}
         buy={find.saleInfo.buyLink}/>
     )
     return (
-        <div>
+        <div className="container">
             <form>
                 <div className="form-group">
 
