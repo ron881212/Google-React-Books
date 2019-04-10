@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import API from "../utils/API";
 import Searched from '../components/searched'
+// import Saved from '../components/saved'
+import Nav from '../components/navBar'
+import Hero from '../components/hero'
 
 class Search extends Component {
   state = {
@@ -37,34 +40,39 @@ class Search extends Component {
   saveBookSubmit = event => {
     event.preventDefault();
       API.saveBook({
-        title: "test",
-        author: this.state.author,
-        description: this.state.description,
-        picture: this.state.picture,
-        buy: this.state.buy
+        title: this.state.results[0].volumeInfo.title,
+        author: this.state.results[0].volumeInfo.authors,
+        description: this.state.results[0].volumeInfo.description,
+        image: this.state.results[0].volumeInfo.imageLinks.thumbnail,
+        buy: this.state.results[0].saleInfo.buyLink
       })
-        .then(res => this.loadBooks())
+        .then(res =>this.loadBooks())
         .catch(err => console.log(err));
   };
   loadBooks = () => {
     API.getBooks()
       .then(res =>
         this.setState({ books: res.data, title: "", author: "", description: "", picture: "", buy: ""})
+        // console.log(res.data)
       )
       .catch(err => console.log(err));
   };
+
   render() {  
     const searchResults = this.state.results.map(find => 
         <Searched 
         title={find.volumeInfo.title}
-        picture={find.volumeInfo.imageLinks.thumbnail}
+        image={find.volumeInfo.imageLinks.thumbnail}
         author={find.volumeInfo.authors[0]}
-        description={find.selfLink}
-        link={find.volumeInfo.description}
+        description={find.volumeInfo.description}
+        link={find.selfLink}
         post={this.saveBookSubmit}
         buy={find.saleInfo.buyLink}/>
     )
     return (
+      <div>
+        <Nav />
+        <Hero />
         <div className="container">
             <form>
                 <div className="form-group">
@@ -82,6 +90,7 @@ class Search extends Component {
 
             </div>
             </div>
+      </div>
       </div>
     );
   }

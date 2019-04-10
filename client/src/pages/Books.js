@@ -3,13 +3,17 @@ import API from "../utils/API";
 // import { Link } from "react-router-dom";
 // import { List, ListItem } from "../components/List";
 import Saved from "../components/saved";
+import Nav from '../components/navBar'
+import Hero from '../components/hero'
 
 class Books extends Component {
+  
   state = {
     books: [],
     title: "",
     author: "",
     description: "",
+    picture: "",
     buy: "",
   };
 
@@ -20,7 +24,7 @@ class Books extends Component {
   loadBooks = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", description: "", buy: "",})
+        this.setState({ books: res.data, title: "", author: "", description: "", buy: "", picture: ""})
       )
       .catch(err => console.log(err));
   };
@@ -55,14 +59,18 @@ class Books extends Component {
     const saveResults = this.state.books.map(get => 
       <Saved 
       title={get.title}
-      picture={get.image}
+      image={get.image}
       author={get.author}
       description={get.description}
-      delete={() => this.deleteBook(get.book._id)}
+      delete={() => this.deleteBook(get._id)}
       buy={get.buy}/>
   )
     return (
-       {saveResults}
+      <div>
+        <Nav />
+        <Hero />
+        {saveResults}
+      </div>
     );
   }
 }
