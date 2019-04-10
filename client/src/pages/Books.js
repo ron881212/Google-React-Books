@@ -69,7 +69,9 @@ class Books extends Component {
       <div>
         <Nav />
         <Hero />
+        <div className="container">
         {saveResults}
+        </div>
       </div>
     );
   }

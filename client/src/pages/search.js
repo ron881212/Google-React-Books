@@ -30,8 +30,8 @@ class Search extends Component {
           throw new Error(res.data.message);
         }
         this.setState({ results: res.data.items, error: "" });
-        console.log(this.state.results);
-        console.log(this.state.search);
+        // console.log(this.state.results);
+        // console.log(this.state.search);
         
         
       })
