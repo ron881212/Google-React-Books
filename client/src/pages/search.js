@@ -1,21 +1,13 @@
 import React, { Component } from "react";
 import API from "../utils/API";
 import Searched from '../components/searched'
-// import Saved from '../components/saved'
 import Nav from '../components/navBar'
 import Hero from '../components/hero'
 
 class Search extends Component {
   state = {
-    search: "",
     results: [],
     books: [],
-    error: "",
-    title: "",
-    author: "",
-    description: "",
-    picture: "",
-    buy: ""
   };
 
   handleInputChange = event => {
@@ -31,20 +23,18 @@ class Search extends Component {
         }
         this.setState({ results: res.data.items, error: "" });
         // console.log(this.state.results);
-        // console.log(this.state.search);
-        
-        
+        // console.log(this.state.search);  
       })
       .catch(err => this.setState({ error: err.message }));
   };
   saveBookSubmit = event => {
     event.preventDefault();
       API.saveBook({
-        title: this.state.results[0].volumeInfo.title,
-        author: this.state.results[0].volumeInfo.authors,
-        description: this.state.results[0].volumeInfo.description,
+        title: this.state.results[0].volumeInfo.title ? this.state.results[0].volumeInfo.title : "no title found",
+        author: this.state.results[0].volumeInfo.authors ? this.state.results[0].volumeInfo.authors : "no author found",
+        description: this.state.results[0].volumeInfo.description ? this.state.results[0].volumeInfo.description : "no description", 
         image: this.state.results[0].volumeInfo.imageLinks.thumbnail,
-        buy: this.state.results[0].saleInfo.buyLink
+        buy: this.state.results[0].saleInfo.buyLink ? this.state.results[0].saleInfo.buyLink : ""
       })
         .then(res =>this.loadBooks())
         .catch(err => console.log(err));
@@ -63,7 +53,7 @@ class Search extends Component {
         <Searched 
         title={find.volumeInfo.title}
         image={find.volumeInfo.imageLinks.thumbnail}
-        author={find.volumeInfo.authors[0]}
+        author={find.volumeInfo.authors}
         description={find.volumeInfo.description}
         link={find.selfLink}
         post={this.saveBookSubmit}
